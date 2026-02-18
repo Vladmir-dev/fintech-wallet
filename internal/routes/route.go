@@ -10,17 +10,16 @@ import (
 func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 	userService := services.NewUserService(db)
 	userHandler := handlers.NewUserHandler(userService)
+	walletService := services.NewWalletService(db)
+	walletHandler := handlers.NewWalletHandler(walletService)
 
 	// User routes
 	router.POST("/users/register", userHandler.OnboardUser)
-	
-	// Wallet routes (to be implemented
-	// walletService := services.NewWalletService(db)
-	// walletHandler := handlers.NewWalletHandler(walletService)
-
-	// router.POST("/wallet/deposit/:wallet_id", walletHandler.Deposit)
-	// router.POST("/wallet/withdraw/:wallet_id", walletHandler.Withdraw)
-	// router.POST("/wallet/transfer/:wallet_id", walletHandler.Transfer)
-	// router.GET("/wallet/transactions/:wallet_id", walletHandler.GetTransactions)
 	// router.GET("/user/profile/:user_id", userHandler.GetProfile)
+	
+	router.POST("/wallet/deposit", walletHandler.Deposit)
+	router.POST("/wallet/withdraw", walletHandler.Withdraw)
+	router.POST("/wallet/transfer", walletHandler.Transfer)
+	router.GET("/wallet/transactions/:wallet_id", walletHandler.GetTransactions)
+	
 }
