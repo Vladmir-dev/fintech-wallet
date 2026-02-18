@@ -15,8 +15,6 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 	router.POST("/users/register", userHandler.OnboardUser)
 	
 	// Wallet routes (to be implemented
-
-	// Wallet routes (add these once you create WalletHandler)
 	// walletService := services.NewWalletService(db)
 	// walletHandler := handlers.NewWalletHandler(walletService)
 

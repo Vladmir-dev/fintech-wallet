@@ -37,6 +37,7 @@ func Connect() {
 	err = DB.AutoMigrate(
 		&models.User{}, 
 		&models.Wallet{},
+		&models.Transaction{},
 	)
 
 	if err != nil {
