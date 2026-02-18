@@ -110,6 +110,11 @@ func (s *WalletService) Withdraw(walletID uint, amount float64, reference string
 			return err
 		}
 
+		// Update wallet balance
+		if err := tx.Model(&models.Wallet{}).Where("id = ?", walletID).Update("balance", gorm.Expr("balance - ?", amount)).Error; err != nil {
+			return err
+		}
+
 		return nil
 
 	})

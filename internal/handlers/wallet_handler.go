@@ -2,10 +2,12 @@ package handlers
 
 import (
 	// "github.com/Vladmir-dev/fintech-wallet/internal/models"
-	"github.com/Vladmir-dev/fintech-wallet/internal/services"
+	"fmt"
 	"net/http"
-	"github.com/gin-gonic/gin"
 	"strconv"
+
+	"github.com/Vladmir-dev/fintech-wallet/internal/services"
+	"github.com/gin-gonic/gin"
 )
 
 type WalletHandler struct {
@@ -35,16 +37,15 @@ type TransferRequest struct {
 	Reference string `json:"reference" binding:"required"`
 }
 
-func (h *WalletHandler) Deposit(c *gin.Context) {
-	//assuming wallet_id is passed as a URL parameter
-	
-
+func (h *WalletHandler) Deposit(c *gin.Context) {	
 	// Parse request body
 	var body DepositRequest
+
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Printf("Received deposit request: %+v\n", body)
 
 	walletID := body.WalletId
 	// walletID, err := strconv.ParseUint(walletIDStr, 10, 64)
