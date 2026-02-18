@@ -5,6 +5,7 @@ import (
 "github.com/Vladmir-dev/fintech-wallet/internal/models"
 "net/http"
 "github.com/gin-gonic/gin"
+"strconv"
 )
 
 type OnboardRequest struct {
@@ -49,4 +50,22 @@ func (h *UserHandler) OnboardUser(c *gin.Context)  {
 	})
 
 	// return h.Service.CreateUser(user, "USD")
+}
+
+func (h *UserHandler) GetProfile(c *gin.Context)  {
+	userIDStr := c.Param("user_id")
+	
+	userID, err := strconv.ParseUint(userIDStr, 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user ID"})
+		return
+	}
+
+	profile, err := h.Service.UserProfile(uint(userID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"profile": profile})
 }

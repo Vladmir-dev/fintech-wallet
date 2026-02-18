@@ -52,3 +52,20 @@ func (s *UserService) CreateUser(req models.User, currency string) (*models.User
 
 	return &req, nil
 }
+
+func (s *UserService) UserProfile(userID uint) (*models.User, error) {
+	var user models.User
+
+	//check that user exists
+	if err := s.DB.First(&user, userID).Error; err != nil {
+		return nil, err
+	}
+
+	//load wallet details
+	
+	if err := s.DB.Preload("Wallet").First(&user, userID).Error; err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
