@@ -129,3 +129,4 @@ func (h *WalletHandler) GetTransactions(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"transactions": transactions})
 }
+

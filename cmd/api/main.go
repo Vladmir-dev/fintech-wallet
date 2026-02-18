@@ -26,8 +26,8 @@ func main() {
 
 	
 	// Start server
-	log.Println("🚀 Server running on port 8080...")
-	if err := router.Run(":8080"); err != nil {
+	log.Println("🚀 Server running on port 8081...")
+	if err := router.Run(":8081"); err != nil {
 		log.Fatal("Error starting server:", err)
 	}
 }
