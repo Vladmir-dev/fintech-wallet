@@ -187,3 +187,12 @@ func (s *WalletService) Transfer(fromWalletID uint, toWalletID uint, amount floa
 	})
 
 }
+
+
+func (s *WalletService) GetTransactions(walletID uint) ([]models.Transaction, error) {
+	var transactions []models.Transaction
+	if err := s.db.Where("wallet_id = ?", walletID).Order("created_at desc").Find(&transactions).Error; err != nil {
+		return nil, err
+	}
+	return transactions, nil
+}
