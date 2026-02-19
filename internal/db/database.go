@@ -28,6 +28,7 @@ func Connect() {
 
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
+		panic(err)
 	}
 
 	log.Println("Database connection established")

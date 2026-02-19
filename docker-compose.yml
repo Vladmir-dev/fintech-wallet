@@ -1,18 +1,40 @@
-version: "3.9"
+# version: '3.8'
 
 services:
-  postgres:
-    image: postgres:16
-    container_name: wallet_postgres
+  app:
+    build:
+      context: .  
+    ports:
+      - "8080:8080"  # Map host port 8080 to container port 8080
+    environment:
+      - DB_HOST=db  # 'db' is the service name below
+      - DB_PORT=5432
+      - DB_USER=wallet_user  
+      - DB_PASSWORD=wallet_pass
+      - DB_NAME=wallet_db
+    depends_on:
+      - db
+
+    networks:
+      - backend
+
+  db:
+    image: postgres:15-alpine  # Lightweight PostgreSQL image
     restart: always
     environment:
-      POSTGRES_USER: wallet_user
-      POSTGRES_PASSWORD: wallet_pass
-      POSTGRES_DB: wallet_db
-    ports:
-      - "5432:5432"
+      - POSTGRES_USER=wallet_user
+      - POSTGRES_PASSWORD=wallet_pass
+      - POSTGRES_DB=wallet_db
+    # ports:
+    #   - "5433:5432" 
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data  
+    networks:
+      - backend
+
 
 volumes:
-  postgres_data:
+  db-data: 
+
+networks:
+  backend: 
